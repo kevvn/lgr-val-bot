@@ -3,7 +3,7 @@ const { token } = require('./config.json');
 const fs = require('fs')
 const path = require("path")
 // Create a new client instance
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
 
 client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -21,12 +21,13 @@ client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
 	const command = client.commands.get(interaction.commandName);
-
 	if (!command) return;
 
 	try {
 		await command.execute(interaction);
 	} catch (error) {
+		console.log(interaction.options)
+		console.log(error)
 		await interaction.reply({ content: 'There was an error while executing this command!' });
 	}
 });
@@ -48,6 +49,22 @@ client.on('messageCreate', async message => {
 		mentionString += ' WAKE UP BITCHES ITS VALOTIME'
 		message.channel.send(mentionString)
 
+	}
+	
+})
+
+client.on('voiceStateUpdate', async (oldState, newState) => {
+	
+	let newUserChannel = newState.channel
+  	let oldUserChannel = oldState.channel
+	  // John, Kevin
+	const usersToNotifyWhenChrisJoins = ['185960849318346752','111611545674375168']
+	// This is specific to bucko joining the valorant voice channel
+	if(oldUserChannel === null && newUserChannel !== undefined && newUserChannel.id === '745517708388597771') {
+		usersToNotifyWhenChrisJoins.forEach(async user => {
+			let currentUser = await client.users.fetch(user, false)
+			await currentUser.send('Chris has joined the valorant voice channel!')
+		})
 	}
 })
 
