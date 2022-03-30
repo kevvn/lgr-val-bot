@@ -63,7 +63,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 	if(oldUserChannel === null && newUserChannel !== undefined && newUserChannel.id === '745517708388597771') {
 		usersToNotifyWhenChrisJoins.forEach(async user => {
 			let currentUser = await client.users.fetch(user, false)
-			await currentUser.send('Chris has joined the valorant voice channel!')
+			// await currentUser.send('Chris has joined the valorant voice channel!')
 		})
 	}
 })
