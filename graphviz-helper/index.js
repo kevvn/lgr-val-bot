@@ -1,4 +1,3 @@
-const { EmbedBuilder, AttachmentBuilder } = require('discord.js');
 const { svg2png } = require('svg-png-converter')
 
 // const QuickChart = require('quickchart-js');

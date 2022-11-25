@@ -1,7 +1,6 @@
 const { Client, Collection, Intents, GatewayIntentBits } = require('discord.js');
 const { token, guildId } = require('./config.json');
 const fs = require('fs')
-const path = require("path");
 const {messageCommandProvider} = require('./message-commands');
 // Create a new client instance
 const client = new Client({
