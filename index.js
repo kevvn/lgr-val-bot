@@ -1,5 +1,6 @@
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token, guildId } = require('./config.json');
+
 const fs = require('fs')
 const path = require("path")
 // Create a new client instance
@@ -13,6 +14,8 @@ for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.data.name, command);
 }
+
+
 
 client.once('ready', () => {
 	console.log('Ready!');
