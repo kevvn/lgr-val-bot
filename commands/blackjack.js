@@ -120,7 +120,7 @@ const handleHit = (interaction, handData) => {
     if (cardSum > 21) {
       handContent = handContent.concat(card);
       interaction.update({
-        content: `**Playing Blackjack**\n\n${handContent} \nTotal: ${cardSum} \nSorry, you BUSTED`,
+        content: `**Playing Blackjack**\n\nYour Hand: ${handContent} \nTotal: ${cardSum} \n\n**Sorry, you BUSTED**`,
         components: [],
       });
       return;
@@ -187,7 +187,7 @@ const execute = async (interaction, handData) => {
     ]);
 
     interaction.reply({
-      content: `**Playing Blackjack**\n\nYour Hand: ${playerCard1} and ${playerCard2} \nTotal: ${playerCardSum} \n\nDealer's Hand: ${dealerCard1}`,
+      content: `**Playing Blackjack**\n\nYour Hand: ${playerCard1}, ${playerCard2} \nTotal: ${playerCardSum} \n\nDealer's Hand: ${dealerCard1}`,
       components: [row],
     });
   }

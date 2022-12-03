@@ -29,12 +29,16 @@ client.once('ready', () => {
 client.on(Events.InteractionCreate, async (interaction) => {
   try {
     if (interaction.isButton()) {
-      if (interaction.message.content.includes('Blackjack')) {
-        const command = client.commands.get('blackjack');
-        if (!command) return;
+      const buttonUser = interaction.user.id;
+      const commandUser = interaction.message.interaction.user.id;
+      if (buttonUser === commandUser) {
+        if (interaction.message.content.includes('Blackjack')) {
+          const command = client.commands.get('blackjack');
+          if (!command) return;
 
-        await command.execute(interaction, interaction.customId);
-        return;
+          await command.execute(interaction, interaction.customId);
+          return;
+        }
       }
     }
 
