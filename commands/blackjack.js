@@ -9,7 +9,6 @@ const convertAceToOne = (cards, cardSum) => {
   for (var i = 0; i < cards.length; i++) {
     if (cards[i].includes('A')) {
       cards[i] = cards[i].replace('A', '1');
-      console.log(cards[i]);
       cardSum = cardSum - 10;
       break;
     }
