@@ -18,6 +18,7 @@
     "discord.js": "^14.6.0",
     "firebase-admin": "^11.3.0",
     "fs": "^0.0.1-security",
+    "lodash": "^4.17.21",
     "pm2": "^5.2.0"
   },
   "devDependencies": {
