@@ -1,3 +1,4 @@
+const { db } = require('../services/firestore.js')
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageMentions: { USERS_PATTERN } } = require('discord.js');
 const fs = require('fs')
@@ -22,30 +23,9 @@ module.exports = {
 		.setName('fire')
 		.setDescription('reserved only for Shiny to fire people')
 		.addUserOption(option => option.setName('user').setDescription('Select a user'))
-		.addBooleanOption(option =>
-			option
-			.setName('leaderboard')
-			.setDescription('generate leaderboard')),
+		.addStringOption(option => option.setName('reason').setDescription('Input an optional reason')),
 	async execute(interaction) {
 		let currentUserId = interaction.user.id
-
-		if(interaction.options.getBoolean('leaderboard')) {
-			let rawdata = fs.readFileSync(path.join(__dirname, '..', 'fired-db.json'))
-			let firedDb = await JSON.parse(rawdata)
-			const sortable = Object.entries(firedDb)
-				.sort(([,a],[,b]) => b-a)
-				.reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
-
-			let leaderboardOutput = `\`\`\`\n`
-			leaderboardOutput += `User: Fired Amount \n`
-			
-			const users = Object.keys(sortable)
-			users.forEach(userKey => {
-				leaderboardOutput +=`${userKey}: ${sortable[userKey]}\n`
-			})
-			leaderboardOutput += `\`\`\`\n`
-			return interaction.reply({ content: leaderboardOutput, ephemeral: false})
-		}
 		if( currentUserId !== '204486743020273664'){
 			return interaction.reply({ content: `You can't fire people!`, ephemeral: true})
 		}
@@ -53,21 +33,15 @@ module.exports = {
 		if(targetUser){
 			const targetUsername = targetUser.username
 			const targetUserId = targetUser.id
-			let rawdata = fs.readFileSync(path.join(__dirname, '..', 'fired-db.json'))
-			let firedDb = await JSON.parse(rawdata)
-			if(firedDb[targetUsername]){
-				const value = firedDb[targetUsername] + 1
-				firedDb[targetUsername] = value 
-				let updatedFiredDb = await JSON.stringify(firedDb);
-				console.log(updatedFiredDb)
-				await fs.writeFileSync(path.join(__dirname, '..', '/fired-db.json'), updatedFiredDb);
-				return interaction.reply({ content: `<@${targetUserId}> YOU'RE FIRED! You have been fired ${value} time${value > 1 ? 's': ''}`, ephemeral: false})
-			} else {
-				firedDb[targetUsername] = 1
-				let updatedFiredDb = await JSON.stringify(firedDb);
-				await fs.writeFileSync(path.join(__dirname, '..', '/fired-db.json'), updatedFiredDb);
-				return interaction.reply({ content: `<@${targetUserId}> YOU'RE FIRED! You have been fired 1 time`, ephemeral: false})
-			}
+			const reason = interaction.options.getString('reason') ?? 'No reason provided'
+			await db.collection('fire-log').add({
+				'user': targetUsername,
+				'reason': reason,
+				'created_at': new Date()
+			})
+			const countQuery = await db.collection('fire-log').where('user', '==', targetUsername).count().get()
+			const countResponse = countQuery.data().count
+			return interaction.reply({ content: `<@${targetUserId}> YOU'RE FIRED! You have been fired ${countResponse} time${countResponse > 1 ? 's': ''}`, ephemeral: false})
 		}
 	},
 };
