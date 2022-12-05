@@ -58,6 +58,8 @@ class BlackjackGames {
           this.Games[userId].dealerSum = convertedSum;
           return;
         }
+
+        dealerSum = convertedSum;
       }
     }
 
