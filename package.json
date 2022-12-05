@@ -19,8 +19,9 @@
     "discord.js": "^14.6.0",
     "firebase-admin": "^11.3.0",
     "fs": "^0.0.1-security",
-    "lodash": "^4.17.21",
-    "pm2": "^5.2.0"
+    "node-fetch": "^3.3.0",
+    "pm2": "^5.2.0",
+    "svg-png-converter": "^0.0.9"
   },
   "devDependencies": {
     "csv-parser": "^3.0.0",
