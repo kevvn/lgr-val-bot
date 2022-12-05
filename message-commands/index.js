@@ -1,4 +1,4 @@
-const { createGraph } = require("../graphviz-helper")
+const { createGraph } = require("../services/graphviz-helper")
 
 
 const lookForCommand = (message) => {
@@ -23,7 +23,7 @@ const lookForCommand = (message) => {
 
 const messageCommandProvider = (message) => {
     lookForCommand(message)
-    if(message.content=='graph'){
+    if(message.content=='test_graph'){
         createGraph(message)
     }
 }
