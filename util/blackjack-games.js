@@ -59,6 +59,7 @@ class BlackjackGames {
           return;
         }
 
+        dealerHand = convertedHand;
         dealerSum = convertedSum;
       }
     }
