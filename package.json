@@ -20,7 +20,7 @@
     "firebase-admin": "^11.3.0",
     "fs": "^0.0.1-security",
     "node-fetch": "^3.3.0",
-    "pm2": "^5.2.0",
+    "pm2": "^5.2.2",
     "svg-png-converter": "^0.0.9"
   },
   "devDependencies": {
