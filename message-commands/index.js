@@ -1,4 +1,3 @@
-const { createGraph } = require("../services/graphviz-helper")
 
 
 const lookForCommand = (message) => {
@@ -23,9 +22,6 @@ const lookForCommand = (message) => {
 
 const messageCommandProvider = (message) => {
     lookForCommand(message)
-    if(message.content=='test_graph'){
-        createGraph(message)
-    }
 }
 module.exports = {
     messageCommandProvider
