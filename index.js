@@ -3,6 +3,9 @@ const { token } = require('./config.json');
 const fs = require('fs');
 const path = require('path');
 const {messageCommandProvider} = require('./message-commands');
+const { db } = require('./services/firestore');
+const { DB_USER_COLLECTION } = require('./constants');
+
 // Create a new client instance
 const client = new Client({
   intents: [
@@ -74,5 +77,11 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
     });
   }
 });
-
+client.on('guildMemberAdd', member => {
+    db.collection(DB_USER_COLLECTION).doc(member.id).set({
+		wallet: 0,
+		inviteFrom: "",
+		username: member.user.username
+	});
+});
 client.login(token);

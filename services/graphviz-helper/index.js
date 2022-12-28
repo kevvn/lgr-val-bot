@@ -1,8 +1,8 @@
 const { svg2png } = require('svg-png-converter')
+const { DB_USER_COLLECTION } = require('../../constants')
 const { db } = require('../firestore')
 
 // const QuickChart = require('quickchart-js');
-const DB_USER_COLLECTION = "LGR_Users"
 const sendChartToDiscord = (message, png) => {
 
   message.channel.send({

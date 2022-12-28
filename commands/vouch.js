@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { DB_USER_COLLECTION } = require('../constants');
 const { db } = require('../services/firestore');
-const DB_COLLECTION_NAME= "LGR_Users";
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,20 +10,18 @@ module.exports = {
         .addUserOption(option => option.setName('invite_user').setDescription("User Invite if not current user").setRequired(false)),
 	async execute(interaction) {
         let byProxy = false;
-        let inviteUserId, inviteUsername;
-        let {id: targetUserId, username: targetUsername} = interaction.options.getUser('user');
+        let inviteUserId;
+        let {id: targetUserId} = interaction.options.getUser('user');
         const currentUser = interaction.user;
         const inviteUser= interaction.options.getUser('invite_user')
         if(!inviteUser) {
             inviteUserId = currentUser.id
-            inviteUsername= currentUser.username
         } else {
             inviteUserId = inviteUser.id;
-            inviteUsername = inviteUser.username
             byProxy = true
         }
 
-        await db.collection(DB_COLLECTION_NAME).doc(`${targetUserId}`).update({
+        await db.collection(DB_USER_COLLECTION).doc(`${targetUserId}`).update({
             inviteFrom: inviteUserId,
         })
         if(byProxy) {
