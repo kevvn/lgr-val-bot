@@ -13,9 +13,9 @@ module.exports = {
         const inviteUserId = currentUser.id
        
         try{
-            await db.collection(DB_USER_COLLECTION).doc(`${targetUserId}`).update({
+            await db.collection(DB_USER_COLLECTION).doc(`${targetUserId}`).set({
                 inviteFrom: inviteUserId,
-            })
+            }, { merge: true })
         } catch(e) {
             console.error(`Attempted to vouch for [${targetUsername}, ${targetUserId}]`)
             return interaction.reply({content: `Bot encountered an Error, we'll take a look O_O. involved: <@${inviteUserId}>, <@${targetUserId}>`})

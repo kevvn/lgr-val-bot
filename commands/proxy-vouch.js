@@ -14,9 +14,9 @@ module.exports = {
         const inviteeUser= interaction.options.getUser('invitee')
         const inviteeUserId = inviteeUser.id;        
         try{
-            await db.collection(DB_USER_COLLECTION).doc(`${invitedUserId}`).update({
+            await db.collection(DB_USER_COLLECTION).doc(`${invitedUserId}`).set({
                 inviteFrom: inviteeUserId,
-            })
+            }, { merge: true })
         } catch(e) {
             console.error(`Attempted to proxy vouch for [${interaction.options.getUser('invited_user').username}, ${invitedUserId}] with [${inviteeUser.username}, ${inviteeUserId}]`)
             return interaction.reply({content: `Bot encountered an Error, we'll take a look O_O, involved: <@${currentUser.id}>, <@${inviteeUserId}>, <@${invitedUserId}>`})
