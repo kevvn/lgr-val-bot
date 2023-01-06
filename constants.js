@@ -80,3 +80,4 @@ const DECK = [
 exports.VAL_MAPS = VAL_MAPS;
 exports.VAL_AGENTS = VAL_AGENTS;
 exports.DECK = DECK;
+exports.DB_USER_COLLECTION = "LGR_Users"
